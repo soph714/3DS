@@ -1,0 +1,8 @@
+R code for downloading bulk NOAA .csv files.
+
+> library(readxl)
+> NOAA_CDDS_iMacro_test <- read_excel("C:/noaa/NOAA _CDDS_iMacro_test.xlsx")
+> View(NOAA_CDDS_iMacro_test)
+> urls <- NOAA_CDDS_iMacro_test$URLs
+> destination <- NOAA_CDDS_iMacro_test$DestinationName
+> for(i in seq_along(urls)){download.file(urls[i], destination[i], mode='wb')}
