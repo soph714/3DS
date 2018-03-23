@@ -7,7 +7,7 @@ Sub Packaging_Save()
 ' Code by TJS
 ' Written on 11/16/2017
 ' Updated on 3/12/2018
-' Use only on Packaging sheet!
+' Use only on Batching sheet!
 '
 ' Purpose of this code is to automatically save all important records to a separate sheet in tabular format
 '
@@ -18,14 +18,14 @@ Sub Packaging_Save()
 '
 '
 
-' Save Lot # as Lot, Vessel as Vessel, and Comments as Comments
-Lot = Range("b3")
-Vessel = Range("F3")
-Comments = Range("A24")
+' Save Lot # as Lot and Vessel P/N as Vessel, Comments as comments
+Lot = Range("A3")
+Vessel = Range("H3")
+Comments = Range("A23")
 
 ' Display message to user to confirm they want to do this dance
 Dim answer As Integer
-answer = MsgBox("You are now saving, emailing, and closing material Packaging. Have you entered all data correctly? Click OK to continue, or Cancel to resume entering data" & vbNewLine & "Thanks for using and have a great day :)", vbOKCancel, "Warning")
+answer = MsgBox("You are now saving, emailing, and closing   Batching. Have you entered all data correctly? Click OK to continue, or Cancel to resume entering data", vbOKCancel, "Warning")
 
 If answer = vbCancel Then
     Exit Sub
@@ -33,83 +33,103 @@ Else
 End If
 
 
-' Save active sheet as PDF for Coworker's ERP checks
+' Save active sheet as PDF for Nicole's Oracle checks
 ActiveSheet.ExportAsFixedFormat _
     Type:=xlTypePDF, _
-    Filename:="NETWORK LOCATION" & Vessel & "," & Lot & ",Packaging Sheet"
+    Filename:="\\us-clt-fs01\groups\Materials Batch Sheets Rock Hill\FabPro\Completed Batch Sheets\" & Vessel & "," & Lot & ",Batch Sheet"
+
+
 
 
 ' Ingredient top row info
-Range("A3,B3,D3,E3,G3").Copy
-Sheets("Packaging Records").Range("A" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
-Sheets("material Packaging").Select
-Range("B3,D3,E3").Select
+Range("A3,b3,f3,g3,i3").Copy
+Sheets("Batching Records").Range("A" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("  Batching").Select
+Range("A3,f3,g3, i3").Select
 Selection.ClearContents
 
-' Filtration inlet pressure
-Sheets("material Packaging").Select
-Range("B8:D8").Copy
-Sheets("Packaging Records").Range("F" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
-Sheets("material Packaging").Select
-Range("B8:D8").Select
+' Ingredient Lots
+Range("g8:g11,g13:g15,g17").Copy
+Sheets("Batching Records").Range("F" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Batching").Select
+Range("g8:g11,g13:g15,g17").Select
 Selection.ClearContents
 
-' Filtration outlet pressure
-Sheets("material Packaging").Select
-Range("B9:D9").Copy
-Sheets("Packaging Records").Range("I" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
-Sheets("material Packaging").Select
-Range("B9:D9").Select
+' Ingredient Locations
+Range("h8:h11,h13:h15,h17").Copy
+Sheets("Batching Records").Range("N" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Batching").Select
+Range("h8:h11,h13:h15,h17").Select
 Selection.ClearContents
 
-' Filtration vessel temp
-Sheets("material Packaging").Select
-Range("B10:D10").Copy
-Sheets("Packaging Records").Range("L" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
-Sheets("material Packaging").Select
-Range("B10:D10").Select
+' Ingredient Weights
+Range("I8:I11,I13:I15,I17").Copy
+Sheets("Batching Records").Range("v" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Batching").Select
+Range("I8:I11,I13:I15").Select
 Selection.ClearContents
 
-' Packaging Location
-Sheets("material Packaging").Select
-Range("F14:F21").Copy
-Sheets("Packaging Records").Range("O" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
-Sheets("material Packaging").Select
-Range("F14:F21").Select
+' Split Lots
+Range("J8:J11,J13:J15,J17").Copy
+Sheets("Batching Records").Range("Ad" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets(" GRY Batching").Select
+Range("J8:J11,J13:J15,J17").Select
 Selection.ClearContents
 
-' Packaging Quantity
-Sheets("material Packaging").Select
-Range("H14:H21").Copy
-Sheets("Packaging Records").Range("W" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
-Sheets("material Packaging").Select
-Range("H14:H21").Select
+' Split Locations
+Range("K8:K11,K13:K15").Copy
+Sheets("Batching Records").Range("Al" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Batching").Select
+Range("K8:K11,K13:K15,k17").Select
 Selection.ClearContents
 
-' Ending message
+' Split Weights
+Range("l8:l11,l13:l15").Copy
+Sheets("Batching Records").Range("AT" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Batching").Select
+Range("l8:l11,l13:l15,l17").Select
+Selection.ClearContents
+
+' Tinting
+Sheets("  Tinting").Select
+Range("C3:C8").Copy
+Sheets("Batching Records").Range("BB" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("  Tinting").Select
+Range("C3:C8").Select
+Selection.ClearContents
+
+' Temp and misc info
+Sheets("  Batching").Select
+Range("g20:l20").Copy
+Sheets("Batching Records").Range("BH" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("  Batching").Select
+Range("g20:k20").Select
+Selection.ClearContents
+
+' Message that the deed is done
 EndMsg = MsgBox("All done, have a great day :)", vbOKOnly, vbInformation)
 
 
-' Email sheet out
+' Email notification
 Dim OutlookApp As Object
 Dim OutlookMail As Object
 Set OutlookApp = CreateObject("Outlook.Application")
 Set OutlookMail = OutlookApp.CreateItem(0)
 On Error Resume Next
 With OutlookMail
-    .To = "Coworker"
-    .CC = ""
+    .To = "email"
+    .CC = "email"
     .BCC = ""
-    .Subject = " " & Lot & " material has been packaged"
-    .Body = "This is an automated email informing you that lot " & Lot & " of material has been packaged and sent to finished goods area. A saved PDF of the packaging sheet can be found here [NETWORK LOCATION] Any comments are " & Comments & "."
-' don 't add attachment, just line below is commented out
+    .Subject = "" & Lot & " of " & Vessel & " material has been batched"
+    .Body = "This is an automated email informing you that lot " & Lot & " of " & Vessel & " material has been batched. Raw materials are ready to be pulled from Oracle. Completed batch can be found here [network], and any comments are " & Comments & "."
+' don't add attachment, just line below commented out below for reference though
 ' .Attachments.Add Application.ActiveWorkbook.FullName
     .Send
-End With
-Set OutlookMail = Nothing
-Set OutlookApp = Nothing
+ End With
+ Set OutlookMail = Nothing
+ Set OutlookApp = Nothing
 
-' Save and close file
+ ' Save and close file
     Application.DisplayAlerts = False
     With ThisWorkbook
         .Save
@@ -118,6 +138,6 @@ Set OutlookApp = Nothing
     Application.DisplayAlerts = True
 
 
-' TODO - Copy Records tab to somewhere else?
+' TODO - Copy Records tab to somewhere?
 
 End Sub
