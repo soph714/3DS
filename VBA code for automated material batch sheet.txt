@@ -1,0 +1,121 @@
+
+Sub Packaging_Save()
+'
+'
+' Code by TJS
+' Written on 11/16/2017
+' Updated on 3/12/2018
+' Use only on Packaging sheet!
+'
+' Purpose of this code is to automatically save all important records to a separate sheet in tabular format
+'
+' Inputs: Fully filled out batch sheet, MUST BE ON BATCH SHEET sheet!
+' Output: Clears batch sheet, copies values to records table, skips if value is above
+' Output: Save as FabPro material + LOT # PDF 
+' Output: timestamp when icon clicked.
+'
+'
+
+' Save Lot # as Lot, Vessel as Vessel, and Comments as Comments
+Lot = Range("b3")
+Vessel = Range("F3")
+Comments = Range("A24")
+
+' Display message to user to confirm they want to do this dance
+Dim answer As Integer
+answer = MsgBox("You are now saving, emailing, and closing material Packaging. Have you entered all data correctly? Click OK to continue, or Cancel to resume entering data" & vbNewLine & "Thanks for using and have a great day :)", vbOKCancel, "Warning")
+
+If answer = vbCancel Then
+    Exit Sub
+Else
+End If
+
+
+' Save active sheet as PDF for Coworker's ERP checks
+ActiveSheet.ExportAsFixedFormat _
+    Type:=xlTypePDF, _
+    Filename:="NETWORK LOCATION" & Vessel & "," & Lot & ",Packaging Sheet"
+
+
+' Ingredient top row info
+Range("A3,B3,D3,E3,G3").Copy
+Sheets("Packaging Records").Range("A" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("material Packaging").Select
+Range("B3,D3,E3").Select
+Selection.ClearContents
+
+' Filtration inlet pressure
+Sheets("material Packaging").Select
+Range("B8:D8").Copy
+Sheets("Packaging Records").Range("F" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("material Packaging").Select
+Range("B8:D8").Select
+Selection.ClearContents
+
+' Filtration outlet pressure
+Sheets("material Packaging").Select
+Range("B9:D9").Copy
+Sheets("Packaging Records").Range("I" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("material Packaging").Select
+Range("B9:D9").Select
+Selection.ClearContents
+
+' Filtration vessel temp
+Sheets("material Packaging").Select
+Range("B10:D10").Copy
+Sheets("Packaging Records").Range("L" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=False
+Sheets("material Packaging").Select
+Range("B10:D10").Select
+Selection.ClearContents
+
+' Packaging Location
+Sheets("material Packaging").Select
+Range("F14:F21").Copy
+Sheets("Packaging Records").Range("O" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("material Packaging").Select
+Range("F14:F21").Select
+Selection.ClearContents
+
+' Packaging Quantity
+Sheets("material Packaging").Select
+Range("H14:H21").Copy
+Sheets("Packaging Records").Range("W" & Rows.Count).End(xlUp).Offset(1, 0).PasteSpecial xlPasteValues, Transpose:=True
+Sheets("material Packaging").Select
+Range("H14:H21").Select
+Selection.ClearContents
+
+' Ending message
+EndMsg = MsgBox("All done, have a great day :)", vbOKOnly, vbInformation)
+
+
+' Email sheet out
+Dim OutlookApp As Object
+Dim OutlookMail As Object
+Set OutlookApp = CreateObject("Outlook.Application")
+Set OutlookMail = OutlookApp.CreateItem(0)
+On Error Resume Next
+With OutlookMail
+    .To = "Coworker"
+    .CC = ""
+    .BCC = ""
+    .Subject = " " & Lot & " material has been packaged"
+    .Body = "This is an automated email informing you that lot " & Lot & " of material has been packaged and sent to finished goods area. A saved PDF of the packaging sheet can be found here [NETWORK LOCATION] Any comments are " & Comments & "."
+' don 't add attachment, just line below is commented out
+' .Attachments.Add Application.ActiveWorkbook.FullName
+    .Send
+End With
+Set OutlookMail = Nothing
+Set OutlookApp = Nothing
+
+' Save and close file
+    Application.DisplayAlerts = False
+    With ThisWorkbook
+        .Save
+        .Close
+        End With
+    Application.DisplayAlerts = True
+
+
+' TODO - Copy Records tab to somewhere else?
+
+End Sub
