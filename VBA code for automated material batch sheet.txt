@@ -137,7 +137,4 @@ With OutlookMail
         End With
     Application.DisplayAlerts = True
 
-
-' TODO - Copy Records tab to somewhere?
-
 End Sub
