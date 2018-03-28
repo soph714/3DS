@@ -1,5 +1,4 @@
-NEW ORDERED 
-SQL query code for MS Access - hot/cold water controls
+SQL query code for MS Access - to reorder the Float Table with columns of TagIndex headings. See SQL heat up snip for visual of before and after. 
 
 SELECT FloatTable.DateAndTime, 
 
