@@ -1,0 +1,21 @@
+NEW ORDERED 
+SQL query code for MS Access - hot/cold water controls
+
+SELECT FloatTable.DateAndTime, 
+
+MAX(IIf(FloatTable.TagIndex=0,FloatTable.Val,Null)) AS ["Cooling Auto"],
+MAX(IIf(FloatTable.TagIndex=1,FloatTable.Val,Null)) AS ["Cycle Complete"],
+MAX(IIf(FloatTable.TagIndex=2,FloatTable.Val,Null)) AS ["Heating Auto"],
+MAX(IIf(FloatTable.TagIndex=3,FloatTable.Val,Null)) AS ["Recipe Number"],
+MAX(IIf(FloatTable.TagIndex=4,FloatTable.Val,Null)) AS ["FCV X01 Output"],
+MAX(IIf(FloatTable.TagIndex=5,FloatTable.Val,Null)) AS ["FCV X02 Output"],
+MAX(IIf(FloatTable.TagIndex=6,FloatTable.Val,Null)) AS ["PMP X01 Run"],
+MAX(IIf(FloatTable.TagIndex=7,FloatTable.Val,Null)) AS ["PT X01 Value"],
+MAX(IIf(FloatTable.TagIndex=8,FloatTable.Val,Null)) AS ["SOV X01 Output"],
+MAX(IIf(FloatTable.TagIndex=9,FloatTable.Val,Null)) AS ["TE X02 Value"],
+MAX(IIf(FloatTable.TagIndex=10,FloatTable.Val,Null)) AS ["TT X01 Value"],
+MAX(IIf(FloatTable.TagIndex=11,FloatTable.Val,Null)) AS ["Start Sequence"]
+
+FROM FloatTable
+
+GROUP BY FloatTable.DateAndTime;
