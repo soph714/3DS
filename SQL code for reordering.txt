@@ -1,4 +1,4 @@
-SQL query code for MS Access - to reorder the Float Table with columns of TagIndex headings. See SQL heat up snip for visual of before and after. 
+SQL query code for MS Access - to reorder the Float Table with columns of TagIndex headings. See SQL heat up snip for visual of before and after. I used max iif to pull the value from each tagindex option then filled the table and grouped by date and time. 
 
 SELECT FloatTable.DateAndTime, 
 
